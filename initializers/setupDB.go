@@ -25,3 +25,23 @@ func SetupDB() {
 		log.Fatal("Error connect to DB")
 	}
 }
+
+func SetupDBTesting() {
+	err := os.Chdir("..")
+
+	if err != nil {
+		log.Fatal("Failed to change directory: ", err)
+	}
+
+	err = godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Failed to load .env file: ", err)
+	}
+
+	dsn := os.Getenv("DB_URL")
+
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Error connect to DB")
+	}
+}
